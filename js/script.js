@@ -4,7 +4,7 @@ const profileResults = document.querySelector('.profile-results');
 const BASE_URL = 'https://api.github.com';
 
 btnSearch.addEventListener('click', async () => {
-	const searchTerm = inputSearch.value;
+	const searchTerm = inputSearch.value.trim();
 
 	if (!searchTerm) return;
 
@@ -22,7 +22,7 @@ btnSearch.addEventListener('click', async () => {
 	try {
 		const response = await fetch(`${BASE_URL}/users/${searchTerm}`);
 
-		if (!response.ok){
+		if (!response.ok) {
 			profileResults.innerHTML = '';
 			alert('Usuário não encontrado. Por favor, verifique o nome de usuário e tente novamente');
 			return;
@@ -30,16 +30,26 @@ btnSearch.addEventListener('click', async () => {
 
 		const userData = await response.json();
 
-		profileResults.innerHTML = ` 
-		<div class="profile-card">
-			<img src="${userData.avatar_url}" alt="Avatar do usuário" class="profile-avatar">
-			<div class="profile-info">
-				<h2>${userData.name}</h2>
-				<p> ${userData.bio || 'Biografia não disponível'} </p>
+		profileResults.innerHTML = `
+			<div class="profile-card">
+				<img src="${userData.avatar_url}" alt="Avatar do usuário" class="profile-avatar">
+				<div class="profile-info">
+					<h2>${userData.name || userData.login}</h2>
+					<p>${userData.bio || 'Biografia não disponível'}</p>
+				</div>
 			</div>
-		</div>
-		`;
 
+			<div class="profile-counters">
+				<div class="followers">
+					<h4>Seguidores</h4>
+					<span>${userData.followers}</span>
+				</div>
+				<div class="following">
+					<h4>Seguindo</h4>
+					<span>${userData.following}</span>
+				</div>
+			</div>
+		`;
 	} catch (error) {
 		console.error('Erro ao buscar usuário:', error);
 		profileResults.innerHTML = '';
