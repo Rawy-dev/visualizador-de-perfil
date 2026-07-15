@@ -205,11 +205,12 @@ main {
 .profile-counters h4 {
   margin-bottom: 0.35rem;
   font-size: 0.95rem;
+  text-transform: uppercase;
   color: var(--muted-foreground);
 }
 
 .profile-counters span {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--foreground);
 }
